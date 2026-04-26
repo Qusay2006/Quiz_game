@@ -8,6 +8,7 @@ import '../data/textstyling.dart';
 
 class QuizScreen extends ConsumerStatefulWidget {
   const QuizScreen({super.key});
+  @override
   ConsumerState<QuizScreen> createState() => _QuizScreenState();
   }
 
@@ -27,8 +28,9 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
       final isFinished = notifier.isfinished();
 
       int questionnumber= currentindex+1;
-
       Textstyling textstyling = Textstyling();
+
+
       if (isFinished == true) {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
           showDialog(context: context, builder: (context) {
@@ -41,7 +43,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                   ref.read(asyncnotifierrProvider.notifier).reset();
                   ref.invalidate(asyncnotifierrProvider);
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return HomeScreen();
+                    return const HomeScreen();
                   },));
                 }, child: const Icon(Icons.door_back_door_outlined))
               ],);
@@ -50,16 +52,15 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
       }
 
 
-
-
-      
       return Scaffold(backgroundColor: Colors.indigo,
-        body: Stack(clipBehavior: Clip.antiAlias,children: [ const Positioned(right: -70, top: -70,
+        body: Stack(clipBehavior: Clip.antiAlias,children: [
+          const Positioned(right: -70, top: -70,
             child: CircleAvatar(
               backgroundColor: Colors.blue, maxRadius: 90,)),
            const Positioned(bottom: -70, left: -70,
               child: CircleAvatar(
                 backgroundColor: Colors.blue, maxRadius: 90,)),
+
           Padding(
             padding: const EdgeInsets.all(24.0),
            child: Column(children: [
@@ -78,34 +79,27 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                   }
                   else{
                 String q = data[currentindex].question;
-                final questionunscp = HtmlUnescape().convert(q);
+                final questionUnScape = HtmlUnescape().convert(q);
                 String correct = data[currentindex].correctAnswer[0];
                 List<String> wrong = data[currentindex].answers;
                 return SingleChildScrollView(
-                  child: Column(
-                
-                  children: [
-                  Row(
-                  children: [
+                  child: Column( children: [
+                  Row( children: [
                   Text('$questionnumber/10',style: const TextStyle(
                   fontWeight: FontWeight.w700,
-                  color: Colors.black87),),
-                  ],
-                  ),
+                  color: Colors.black87),
+                      ),
+                  ],),
                 
                   SizedBox(width: double.infinity,
                   child: Card(color: Colors.white10,
-                  child: Text(questionunscp,style: Textstyling().question())
-                  ),
-                  ),
+                  child: Text(questionUnScape,style: Textstyling().question())
+                  ),),
                 
                   const SizedBox(height: 30),
                 
-                
                   ...wrong.asMap().entries.map((e) {
-                
-                               return  Padding(
-                   padding: const EdgeInsets.only(top: 4),
+                   return  Padding(padding: const EdgeInsets.only(top: 4),
                    child: TextButton(onPressed: incdex!=-1? null :(){
                     ref.read(asyncnotifierrProvider.notifier).thecorrectanser(e.value, currentindex,e.key);
                     },
@@ -114,29 +108,22 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                     textStyle: textstyling.question()
                     )),
                                );
-                
-                  },),
-                  ],
-                  ),
-                );}
-                }, error: (error, stackTrace) {
+                   },),],),);
+                  }
+                },
+                  error: (error, stackTrace) {
                   return const Column(
                     children: [SizedBox(height: 200,)
                 
                       , Row(mainAxisAlignment: MainAxisAlignment.center,
                         children: [Icon(Icons.wifi_off),SizedBox(width: 4,),
                           Text('Please connect to WIFI'),
-                        ],
-                      ),
-                    ],
-                  );
+                        ],),],);
                 }, loading: () {
                             return const Center(child: CircularProgressIndicator(),);
                 },),
               ),
-             ]
-            )),
-
+             ],),),
         ]),
       );
       }

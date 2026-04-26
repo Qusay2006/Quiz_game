@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
-import 'package:quizegame/data/asyncnotifierr.dart';
-import 'package:quizegame/pages/home_screen.dart';
 import 'package:quizegame/pages/quiz_screen.dart';
-import '../pages/login_page.dart';
 
 class HomeUi extends ConsumerStatefulWidget {
   const HomeUi({super.key});
 
+  @override
   ConsumerState<HomeUi>createState()=> _HomeUiState();
   }
   class _HomeUiState extends ConsumerState<HomeUi>{
